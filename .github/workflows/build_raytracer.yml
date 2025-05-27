@@ -1,17 +1,26 @@
 name: Build and Run Ray Tracer (Windows)
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Build solution
-      run: msbuild YourProject.sln /p:Configuration=Release
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v1.1
 
-    - name: Run ray tracer
-      run: .\Release\YourExecutable.exe
+      - name: Build solution
+        run: msbuild RayTracer.sln /p:Configuration=Release
+
+      - name: Run executable
+        run: .\Release\RayTracer.exe
